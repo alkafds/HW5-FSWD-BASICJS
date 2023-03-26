@@ -1,7 +1,7 @@
 // Membuat array random 1-100
 let array = [];
 for (let index = 0; index < 100; index++) {
-  let nomorRandom = Math.floor(Math.random() * 50) + 1;
+  let nomorRandom = Math.floor(Math.random() * 50);
   array.push(nomorRandom);
 }
 
