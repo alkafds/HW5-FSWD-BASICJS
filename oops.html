@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+            <button class="btn btn-primary" onclick="showTabRegister()">Register</button>
+            <button class="btn btn-primary" onclick="showTabPendaftar()">List Pendaftar</button>
+        </div>
+        <div id="tab_register">
+            <div class="mb-8">
+            <label for="exampleFormControlInput1" class="form-label">Nama</label>
+            <input type="text" class="form-control" id="inputnama" placeholder="minimal 10 karakter" >
+            </div>
+            <div class="mb-8">
+            <label for="exampleFormControlInput1" class="form-label">Nama</label>
+            <input type="number" class="form-control" id="inputumur" placeholder="umur minimal 25">
+            </div>
+            <div class="mb-8">
+            <label for="exampleFormControlInput1" class="form-label">Uang Saku</label>
+            <input type="number" class="form-control" id="inputmoney" placeholder="minimal 100 ribu" >
+            </div>
+            <button type="button" class="btn btn-primary" value="submit" onclick="submitreg()">Submit</button>
+        </div>
+        <div id="tab_pendaftar">
+            <h3>List Pendaftar</h3>
+            <p id="resume"></p>
+            <table class="table" id="tableList">
+                <thead>
+                    <tr>
+                        <td>nama</td>
+                        <td>umur</td>
+                        <td>uang</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+
+let pendaftar = [];
+console.log(pendaftar);
+
+function submitreg() {
+    
+  let nama = document.getElementById("inputnama");
+  let umur = document.getElementById("inputumur");
+  let uang = document.getElementById("inputmoney");
+  let resume = document.getElementById("resume");
+  let total_umur = 0;
+  let total_uang = 0;
+  let rata_rata_umur = 0;
+  let rata_rata_uang = 0;
+  if (Number(umur.value) >= 25) {
+    if (Number(uang.value) >= 100000 && Number(uang.value) <= 1000000) {
+      if (nama.value.length >= 10) {
+        pendaftar.push({
+          nama: nama.value,
+          umur: umur.value,
+          uang: uang.value
+        });
+        const trdel = document.getElementsByTagName("tbody")[0];
+        trdel.remove();
+        tablelist = document.getElementById("tablelist");
+        const tbody = document.createElement("tbody");
+        for (let index = 0; index < pendaftar.length; index++) {
+          const tr = document.createElement("tr");
+
+          let tdNama = document.createElement("td");
+          let valueNama = document.createTextNode(nama.value);
+          tdNama.appendChild(valueNama);
+          tr.appendChild(tdNama);
+
+          let tdUmur = document.createElement("td");
+        let valueUmur = document.createTextNode(umur.value);
+        tdUmur.appendChild(valueUmur);
+        tr.appendChild(tdUmur);
+
+        let tdUang = document.createElement("td");
+        let valueUang = document.createTextNode(uang.value);
+        tdUang.appendChild(valueUang);
+        tr.appendChild(tdUang);
+
+        
+          tbody.appendChild(tr);
+          rata_rata_umur += total_umur / pendaftar.length;
+          rata_rata_uang += total_uang / pendaftar.length;
+
+          total_umur += Number(pendaftar[index].umur);
+          total_uang += Number(pendaftar[index].uang);
+          resume.innerHTML = `rata-rata pendaftar memiliki uang sebesar ${Math.round(rata_rata_uang )} dengan rata-rata umur ${Math.round(rata_rata_umur)}`;
+          tableList.appendChild(tbody);
+          console.log(pendaftar);
+        }
+      } else {
+        alert("invalid! nama minimal 10 karakter");
+        return false;
+      }
+    } else {
+      alert("invalid! minimal 100 ribu, maksimal 1 juta");
+      return false;
+    }
+  } else {
+    alert("invalid! minimal 25");
+    return false;
+  }
+}
+
+document.getElementById("tab_register").style.display = "block";
+document.getElementById("tab_pendaftar").style.display = "none";
+
+function showTabRegister() {
+  document.getElementById("tab_register").style.display = "block";
+  document.getElementById("tab_pendaftar").style.display = "none";
+}
+function showTabPendaftar() {
+  document.getElementById("tab_register").style.display = "none";
+  document.getElementById("tab_pendaftar").style.display = "block";
+}
+
+</script>
+</body>
+</html>
